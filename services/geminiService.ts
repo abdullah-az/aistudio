@@ -22,6 +22,11 @@ const schema = {
         enum: [QuestionType.MULTIPLE_CHOICE, QuestionType.TRUE_FALSE, QuestionType.SHORT_ANSWER],
         description: "The type of the question.",
       },
+      specialization: {
+        type: Type.STRING,
+        enum: Object.values(Specialization),
+        description: "The specialization domain of the question."
+      },
       options: {
         type: Type.ARRAY,
         items: {
@@ -34,7 +39,7 @@ const schema = {
         description: "The correct answer. For multiple choice, this must be one of the provided options.",
       },
     },
-    required: ["question", "type", "answer"],
+    required: ["question", "type", "specialization", "answer"],
   },
 };
 
@@ -53,6 +58,8 @@ export async function generateExamQuestions(
     ---
     ${pdfText.substring(0, 30000)}
     ---
+
+    The specialization for these questions should be inferred from the text, or set to "${Specialization.GENERAL}" if it's ambiguous.
     `
     : `
     You are an expert exam creator for a unified informatics engineering exam. Your task is to generate a list of exam questions.
@@ -67,10 +74,11 @@ export async function generateExamQuestions(
     1.  Generate exactly ${numQuestions} questions based on the provided context.
     2.  The difficulty level for all questions should be: ${difficulty}.
     3.  The type for all questions should be: ${questionType}.
-    4.  For "${QuestionType.MULTIPLE_CHOICE}" questions, provide exactly 4 distinct options. One option must be the correct answer. The 'options' array should contain these 4 strings.
-    5.  For "${QuestionType.TRUE_FALSE}" and "${QuestionType.SHORT_ANSWER}" questions, the 'options' array must be empty.
-    6.  The 'answer' field must always contain the correct answer. For multiple choice, it must exactly match one of the strings in the 'options' array.
-    7.  Ensure the generated content strictly adheres to the provided JSON schema. If the provided context is insufficient to generate the required number of questions, generate as many as you can.
+    4.  The 'specialization' field must be correctly set. For non-PDF mode, it must be "${specialization}". For PDF mode, it should be inferred from the text.
+    5.  For "${QuestionType.MULTIPLE_CHOICE}" questions, provide exactly 4 distinct options. One option must be the correct answer. The 'options' array should contain these 4 strings.
+    6.  For "${QuestionType.TRUE_FALSE}" and "${QuestionType.SHORT_ANSWER}" questions, the 'options' array must be empty.
+    7.  The 'answer' field must always contain the correct answer. For multiple choice, it must exactly match one of the strings in the 'options' array.
+    8.  Ensure the generated content strictly adheres to the provided JSON schema. If the provided context is insufficient to generate the required number of questions, generate as many as you can.
   `;
 
   try {

@@ -5,6 +5,7 @@ const db: Record<Specialization, Omit<Question, 'id' | 'isGenerated'>[]> = {
     {
       question: 'ما هو الغرض الأساسي للدالة البانية (constructor) في البرمجة كائنية التوجه؟',
       type: QuestionType.MULTIPLE_CHOICE,
+      specialization: Specialization.SOFTWARE_ENGINEERING,
       options: [
         'لتحطيم كائن',
         'لتهيئة حالة الكائن الأولية',
@@ -16,16 +17,19 @@ const db: Record<Specialization, Omit<Question, 'id' | 'isGenerated'>[]> = {
     {
       question: 'الأمر "git clone" يستخدم لإنشاء فرع جديد في المستودع.',
       type: QuestionType.TRUE_FALSE,
+      specialization: Specialization.SOFTWARE_ENGINEERING,
       answer: 'خطأ',
     },
     {
       question: 'في تطوير البرمجيات السريع (Agile)، ما هو "السبرنت" (sprint)؟',
       type: QuestionType.SHORT_ANSWER,
+      specialization: Specialization.SOFTWARE_ENGINEERING,
       answer: 'فترة زمنية قصيرة ومحددة يتم خلالها إنجاز كمية معينة من العمل.'
     },
     {
       question: 'أي مما يلي ليس من مبادئ SOLID الأساسية في التصميم؟',
       type: QuestionType.MULTIPLE_CHOICE,
+      specialization: Specialization.SOFTWARE_ENGINEERING,
       options: [
         'مبدأ المسؤولية الواحدة',
         'مبدأ الفتح/الإغلاق',
@@ -39,17 +43,20 @@ const db: Record<Specialization, Omit<Question, 'id' | 'isGenerated'>[]> = {
     {
       question: 'أي طبقة من نموذج OSI مسؤولة عن توجيه الرزم بين الشبكات؟',
       type: QuestionType.MULTIPLE_CHOICE,
+      specialization: Specialization.NETWORK_ENGINEERING,
       options: ['طبقة ربط البيانات', 'طبقة النقل', 'طبقة الشبكة', 'الطبقة الفيزيائية'],
       answer: 'طبقة الشبكة',
     },
     {
       question: 'ما هو قناع الشبكة الفرعية الافتراضي لعنوان IP من الفئة C؟',
       type: QuestionType.SHORT_ANSWER,
+      specialization: Specialization.NETWORK_ENGINEERING,
       answer: '255.255.255.0',
     },
     {
       question: 'بروتوكول التحكم في الإرسال (TCP) هو بروتوكول غير متصل.',
       type: QuestionType.TRUE_FALSE,
+      specialization: Specialization.NETWORK_ENGINEERING,
       answer: 'خطأ'
     }
   ],
@@ -57,17 +64,20 @@ const db: Record<Specialization, Omit<Question, 'id' | 'isGenerated'>[]> = {
     {
       question: 'ما نوع خوارزمية التعلم الآلي المستخدمة للتنبؤ بقيمة مستمرة، مثل سعر المنزل؟',
       type: QuestionType.MULTIPLE_CHOICE,
+      specialization: Specialization.ARTIFICIAL_INTELLIGENCE,
       options: ['التصنيف', 'التجميع', 'الانحدار', 'التعلم المعزز'],
       answer: 'الانحدار',
     },
     {
       question: 'في الشبكة العصبونية، ما هي وظيفة دالة التنشيط؟',
       type: QuestionType.SHORT_ANSWER,
+      specialization: Specialization.ARTIFICIAL_INTELLIGENCE,
       answer: 'لإدخال اللاخطية إلى خرج العصبون.'
     },
     {
         question: 'يحدث "التخصيص المفرط" (Overfitting) عندما يعمل النموذج جيدًا على بيانات التدريب ولكن بشكل سيء على بيانات الاختبار غير المرئية.',
         type: QuestionType.TRUE_FALSE,
+        specialization: Specialization.ARTIFICIAL_INTELLIGENCE,
         answer: 'صحيح'
     }
   ],
@@ -75,11 +85,13 @@ const db: Record<Specialization, Omit<Question, 'id' | 'isGenerated'>[]> = {
     {
       question: 'ماذا يعني اختصار CPU؟',
       type: QuestionType.SHORT_ANSWER,
+      specialization: Specialization.GENERAL,
       answer: 'وحدة المعالجة المركزية',
     },
     {
       question: 'أي بنية بيانات تعمل على أساس "آخر من يدخل، أول من يخرج" (LIFO)؟',
       type: QuestionType.MULTIPLE_CHOICE,
+      specialization: Specialization.GENERAL,
       options: ['الطابور', 'المكدس', 'القائمة المترابطة', 'الشجرة'],
       answer: 'المكدس',
     },

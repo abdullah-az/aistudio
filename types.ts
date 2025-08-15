@@ -27,6 +27,7 @@ export interface Question {
   id: string; // Unique identifier for each question
   question: string;
   type: QuestionType;
+  specialization: Specialization;
   options?: string[];
   answer: string;
   isGenerated: boolean; // Flag for AI-generated vs manually added

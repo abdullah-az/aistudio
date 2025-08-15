@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Question, QuestionType } from '../../types';
+import { Question, QuestionType, Specialization } from '../../types';
 import { translations } from '../../utils/localization';
 import { XIcon } from '../icons/XIcon';
-import { TrashIcon } from '../icons/TrashIcon';
 
 interface EditQuestionModalProps {
   isOpen: boolean;
@@ -15,6 +14,7 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({ isOpen, onClose, 
   const [formData, setFormData] = useState<Partial<Question>>({
     question: '',
     type: QuestionType.MULTIPLE_CHOICE,
+    specialization: Specialization.GENERAL,
     options: ['', '', '', ''],
     answer: '',
     isGenerated: false,
@@ -24,12 +24,13 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({ isOpen, onClose, 
     if (question) {
       setFormData({
         ...question,
-        options: question.options ? [...question.options] : ['', '', '', ''],
+        options: question.options && question.options.length > 0 ? [...question.options] : ['', '', '', ''],
       });
     } else {
       setFormData({
         question: '',
         type: QuestionType.MULTIPLE_CHOICE,
+        specialization: Specialization.GENERAL,
         options: ['', '', '', ''],
         answer: '',
         isGenerated: false,
@@ -60,7 +61,7 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({ isOpen, onClose, 
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.question && formData.type && formData.answer) {
+    if (formData.question && formData.type && formData.answer && formData.specialization) {
         onSave(formData as Question);
     }
   };
@@ -91,17 +92,31 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({ isOpen, onClose, 
                 rows={3}
               />
             </div>
-            <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-300 mb-2">نوع السؤال</label>
-              <select
-                id="type" name="type" required
-                value={formData.type} onChange={handleTypeChange}
-                className="w-full bg-gray-900/50 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-200 px-4 py-2"
-              >
-                {Object.values(QuestionType).map(type => (
-                  <option key={type} value={type}>{translations[type]}</option>
-                ))}
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="type" className="block text-sm font-medium text-gray-300 mb-2">نوع السؤال</label>
+                  <select
+                    id="type" name="type" required
+                    value={formData.type} onChange={handleTypeChange}
+                    className="w-full bg-gray-900/50 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-200 px-4 py-2"
+                  >
+                    {Object.values(QuestionType).map(type => (
+                      <option key={type} value={type}>{translations[type]}</option>
+                    ))}
+                  </select>
+                </div>
+                 <div>
+                  <label htmlFor="specialization" className="block text-sm font-medium text-gray-300 mb-2">التخصص</label>
+                  <select
+                    id="specialization" name="specialization" required
+                    value={formData.specialization} onChange={handleInputChange}
+                    className="w-full bg-gray-900/50 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-200 px-4 py-2"
+                  >
+                    {Object.values(Specialization).map(spec => (
+                      <option key={spec} value={spec}>{translations[spec]}</option>
+                    ))}
+                  </select>
+                </div>
             </div>
             
             {formData.type === QuestionType.MULTIPLE_CHOICE && (
@@ -131,8 +146,8 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({ isOpen, onClose, 
                         className="w-full bg-gray-900/50 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-200 px-4 py-2"
                    >
                        <option value="" disabled>اختر الإجابة الصحيحة</option>
-                       {formData.options?.map((option, index) => (
-                           option.trim() && <option key={index} value={option}>{option}</option>
+                       {formData.options?.filter(opt => opt && opt.trim() !== '').map((option, index) => (
+                           <option key={index} value={option}>{option}</option>
                        ))}
                    </select>
                )}
@@ -156,7 +171,7 @@ const EditQuestionModal: React.FC<EditQuestionModalProps> = ({ isOpen, onClose, 
                )}
             </div>
           </div>
-          <div className="bg-gray-800/50 px-6 py-4 flex justify-end gap-3 rounded-b-2xl flex-shrink-0">
+          <div className="bg-gray-800/50 px-6 py-4 flex justify-end gap-3 rounded-b-2xl flex-shrink-0 border-t border-gray-700">
             <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-600 text-gray-200 hover:bg-gray-700">إلغاء</button>
             <button type="submit" className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700">حفظ التغييرات</button>
           </div>

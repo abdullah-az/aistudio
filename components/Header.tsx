@@ -28,12 +28,17 @@ const Header: React.FC<HeaderProps> = ({ view, setView, user, onLogout, examStat
     <header className="bg-gray-800/50 backdrop-blur-sm border-b border-gray-700/50 sticky top-0 z-20">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <button
+                onClick={() => setView('EXAM')}
+                disabled={isExamActive}
+                className={`flex items-center gap-3 transition-opacity disabled:cursor-not-allowed disabled:opacity-70 hover:opacity-80`}
+                aria-label="العودة إلى الصفحة الرئيسية"
+            >
                 <BrainCircuitIcon className="w-8 h-8 text-indigo-400" />
                 <h1 className="text-xl md:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-gray-200 via-gray-300 to-gray-400">
                     منصة اختبار الهندسة المعلوماتية
                 </h1>
-            </div>
+            </button>
             {user && (
                  <div className="flex items-center gap-4">
                     {/* Desktop Navigation */}
